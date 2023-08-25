@@ -74,9 +74,9 @@ public class BlazorWebView : WebView
             webkit_user_content_manager_add_script(WebView.UserContentManager.Handle, script);
             webkit_user_script_unref(script);
 
-            g_signal_connect(WebView.UserContentManager.Handle, "script-message-received::webview",
+            g_signal_connect_data(WebView.UserContentManager.Handle, "script-message-received::webview",
                 Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
-                IntPtr.Zero);
+                IntPtr.Zero,IntPtr.Zero, (GLib.ConnectFlags)0);
 
             webkit_user_content_manager_register_script_message_handler(WebView.UserContentManager.Handle, "webview");
 
