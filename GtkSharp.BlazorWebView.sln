@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebKit", "BlazorWebKit\BlazorWebKit.csproj", "{0EEB6E5A-4E8F-45A6-93B0-D902FB39A4E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebKit.Test", "BlazorWebKit.Test\BlazorWebKit.Test.csproj", "{F1A61BE4-BA26-40F2-BD5A-FB34C1ADAD22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EEB6E5A-4E8F-45A6-93B0-D902FB39A4E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EEB6E5A-4E8F-45A6-93B0-D902FB39A4E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EEB6E5A-4E8F-45A6-93B0-D902FB39A4E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EEB6E5A-4E8F-45A6-93B0-D902FB39A4E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1A61BE4-BA26-40F2-BD5A-FB34C1ADAD22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A61BE4-BA26-40F2-BD5A-FB34C1ADAD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1A61BE4-BA26-40F2-BD5A-FB34C1ADAD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A61BE4-BA26-40F2-BD5A-FB34C1ADAD22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
