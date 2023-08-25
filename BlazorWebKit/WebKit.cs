@@ -1,26 +1,16 @@
 using System.Runtime.InteropServices;
+using WebKit;
 
 namespace BlazorWebKit;
 
 internal static class WebKit
 {
-    public enum WebKitUserContentInjectedFrames
-    {
-        WEBKIT_USER_CONTENT_INJECT_ALL_FRAMES = 0,
-        WEBKIT_USER_CONTENT_INJECT_TOP_FRAME = 1
-    }
-
-    public enum WebKitUserScriptInjectionTime
-    {
-        WEBKIT_USER_SCRIPT_INJECT_AT_DOCUMENT_START = 0,
-        WEBKIT_USER_SCRIPT_INJECT_AT_DOCUMENT_END = 1
-    }
 
     public const string FilePath = "webkit";
 
     [DllImport(FilePath)]
-    public static extern IntPtr webkit_user_script_new(string source, WebKitUserContentInjectedFrames injected_frames,
-        WebKitUserScriptInjectionTime injection_time, string? allow_list, string? block_list);
+    public static extern IntPtr webkit_user_script_new(string source, UserContentInjectedFrames injected_frames,
+        UserScriptInjectionTime injection_time, string? allow_list, string? block_list);
 
     [DllImport(FilePath)]
     public static extern void webkit_user_content_manager_add_script(IntPtr manager, IntPtr script);

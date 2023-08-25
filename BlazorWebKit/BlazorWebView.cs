@@ -67,8 +67,8 @@ public class BlazorWebView : WebView
                     }
                 };
                 """, 
-                WebKitUserContentInjectedFrames.WEBKIT_USER_CONTENT_INJECT_ALL_FRAMES, 
-                WebKitUserScriptInjectionTime.WEBKIT_USER_SCRIPT_INJECT_AT_DOCUMENT_START, 
+                UserContentInjectedFrames.AllFrames,
+                UserScriptInjectionTime.Start,
                 null, null);
 
             webkit_user_content_manager_add_script(WebView.UserContentManager.Handle, script);
