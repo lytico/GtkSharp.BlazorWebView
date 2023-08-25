@@ -21,7 +21,7 @@ public class BlazorWebView : WebView
             NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver.Resolve);
         }
 
-        delegate void void_nint_nint_nint(nint arg0, nint arg1, nint arg2);
+        delegate void void_nint_nint_nint(IntPtr arg0, IntPtr arg1, IntPtr arg2);
 
         const string _scheme = "app";
         readonly static Uri _baseUri = new Uri($"{_scheme}://localhost/");
@@ -76,7 +76,7 @@ public class BlazorWebView : WebView
 
             g_signal_connect(WebView.UserContentManager.Handle, "script-message-received::webview",
                 Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
-                nint.Zero);
+                IntPtr.Zero);
 
             webkit_user_content_manager_register_script_message_handler(WebView.UserContentManager.Handle, "webview");
 
@@ -110,7 +110,7 @@ public class BlazorWebView : WebView
                 {
                     content.CopyTo(ms);
 
-                    var streamPtr = g_memory_input_stream_new_from_data(ms.GetBuffer(), (uint)ms.Length, nint.Zero);
+                    var streamPtr = g_memory_input_stream_new_from_data(ms.GetBuffer(), (uint)ms.Length, IntPtr.Zero);
                     var inputStream = new GLib.InputStream(streamPtr);
                     request.Finish(inputStream, ms.Length, headers["Content-Type"]);
                 }
@@ -121,7 +121,7 @@ public class BlazorWebView : WebView
             }
         }
 
-        void HandleWebMessage(nint contentManager, nint jsResult, nint arg)
+        void HandleWebMessage(IntPtr contentManager, IntPtr jsResult, IntPtr arg)
         {
             var jsValue = webkit_javascript_result_get_js_value(jsResult);
 
@@ -160,7 +160,7 @@ public class BlazorWebView : WebView
 
             var script = $"__dispatchMessageCallback(\"{HttpUtility.JavaScriptStringEncode(message)}\")";
 
-            webkit_web_view_run_javascript(WebView.Handle, script, nint.Zero, nint.Zero, nint.Zero);
+            webkit_web_view_run_javascript(WebView.Handle, script, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
         }
     }
 
@@ -170,7 +170,7 @@ public class BlazorWebView : WebView
         _manager = new WebViewManager(this, serviceProvider);
     }
 
-    public BlazorWebView(nint raw, IServiceProvider serviceProvider)
+    public BlazorWebView(IntPtr raw, IServiceProvider serviceProvider)
         : base (raw)
     {
         _manager = new WebViewManager(this, serviceProvider);

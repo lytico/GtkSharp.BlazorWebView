@@ -5,7 +5,7 @@ namespace BlazorWebKit;
 
 internal static class DllImportResolver
 {
-    readonly static Dictionary<string, nint> _libraries;
+    readonly static Dictionary<string, IntPtr> _libraries;
 
     static DllImportResolver()
     {
@@ -15,7 +15,7 @@ internal static class DllImportResolver
         // ensure we're using the same native libraries as GtkSharp.  It uses reflections because
         // `GLibrary.TryGet` is not accessible.
 
-        _libraries = new Dictionary<string, nint>();
+        _libraries = new Dictionary<string, IntPtr>();
 
         var a = Assembly.Load("GtkSharp");
         var libraryEnum = a.GetType("Library");
@@ -28,14 +28,14 @@ internal static class DllImportResolver
             var parameters = new object?[] { libraryEnumMember, null };
             if ((bool)tryget!.Invoke(null, parameters)!)
             {
-                _libraries.Add(t.FilePath, (nint)parameters[1]!);
+                _libraries.Add(t.FilePath, (IntPtr)parameters[1]!);
             }
         }
     }
 
     public static IntPtr Resolve(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
     {
-        if (_libraries.TryGetValue(libraryName, out nint result))
+        if (_libraries.TryGetValue(libraryName, out IntPtr result))
         {
             return result;
         }
