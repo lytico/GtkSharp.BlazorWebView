@@ -3,14 +3,16 @@ using WebKit;
 
 namespace BlazorWebKit;
 
-internal static class WebKit
+internal static partial class WebKit
 {
 
     public const string FilePath = "webkit";
 
+    // https://webkitgtk.org/reference/webkit2gtk/2.9.4/webkit2gtk-4.0-WebKitUserContent.html#webkit-user-script-new
+    
     [DllImport(FilePath)]
     public static extern IntPtr webkit_user_script_new(string source, UserContentInjectedFrames injected_frames,
-        UserScriptInjectionTime injection_time, string? allow_list, string? block_list);
+        UserScriptInjectionTime injection_time, IntPtr[] allow_list, IntPtr[] block_list);
 
     [DllImport(FilePath)]
     public static extern void webkit_user_content_manager_add_script(IntPtr manager, IntPtr script);

@@ -50,7 +50,8 @@ public class BlazorWebView : WebView
                 await AddRootComponentAsync(_rootComponent, "#app", ParameterView.Empty);
             });
 
-            var script = webkit_user_script_new(
+            // var script = BlazorWebKit.UserScript.New(
+            var script_handle= webkit_user_script_new (
                 """
                 window.__receiveMessageCallbacks = [];
 
@@ -71,8 +72,10 @@ public class BlazorWebView : WebView
                 UserScriptInjectionTime.Start,
                 null, null);
 
-            webkit_user_content_manager_add_script(WebView.UserContentManager.Handle, script);
-            webkit_user_script_unref(script);
+            //var script_handle = GLib.Marshaller.StructureToPtrAlloc (script);
+            webkit_user_content_manager_add_script(WebView.UserContentManager.Handle, script_handle);
+            
+            webkit_user_script_unref(script_handle);
 
             g_signal_connect_data(WebView.UserContentManager.Handle, "script-message-received::webview",
                 Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
