@@ -5,11 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GtkSharp" Version="3.24.24.38" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.21" />
-        <PackageReference Include="WebkitGtkSharp" Version="3.24.24.38" />
+        <PackageReference Include="GtkSharp" Version="3.24.24.95"/>
+        <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.21"/>
     </ItemGroup>
 </Project>
