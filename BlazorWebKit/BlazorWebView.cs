@@ -163,7 +163,7 @@ public class BlazorWebView : WebView
 
             var script = $"__dispatchMessageCallback(\"{HttpUtility.JavaScriptStringEncode(message)}\")";
 
-            webkit_web_view_run_javascript(WebView.Handle, script, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+           WebView.RunJavascript(script);
         }
     }
 

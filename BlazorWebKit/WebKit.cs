@@ -24,9 +24,6 @@ internal static partial class WebKit
     public static extern bool webkit_user_content_manager_register_script_message_handler(IntPtr manager, string name);
 
     [DllImport(FilePath)]
-    public static extern void webkit_web_view_run_javascript (IntPtr web_view, string script, IntPtr cancellable, IntPtr callback, IntPtr user_data);
-
-    [DllImport(FilePath)]
     public static extern void webkit_javascript_result_unref(IntPtr js_result);
 
     [DllImport(FilePath)]
