@@ -5,6 +5,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using System.Web;
+using GLib;
+using WebKitUpStream;
+using Settings = WebKit.Settings;
 
 namespace BlazorWebKit;
 
@@ -16,7 +19,7 @@ public class BlazorWebView : WebView
     class WebViewManager : Microsoft.AspNetCore.Components.WebView.WebViewManager
     {
 
-        delegate void void_IntPtr_IntPtr_IntPtr(IntPtr arg0, IntPtr arg1, IntPtr arg2);
+        delegate void WebMessageHandler(IntPtr contentManager, IntPtr jsResult, IntPtr arg);
 
         const string _scheme = "app";
         readonly static Uri _baseUri = new Uri($"{_scheme}://localhost/");
@@ -45,8 +48,7 @@ public class BlazorWebView : WebView
                 await AddRootComponentAsync(_rootComponent, "#app", ParameterView.Empty);
             });
 
-            // var script = BlazorWebKit.UserScript.New(
-            var script_handle= webkit_user_script_new (
+            var script = new global::WebKit.UserScript(
                 """
                 window.__receiveMessageCallbacks = [];
 
@@ -67,11 +69,8 @@ public class BlazorWebView : WebView
                 UserScriptInjectionTime.Start,
                 null, null);
 
-            //var script_handle = GLib.Marshaller.StructureToPtrAlloc (script);
-            webkit_user_content_manager_add_script(WebView.UserContentManager.Handle, script_handle);
-            
-            webkit_user_script_unref(script_handle);
-
+            WebView.UserContentManager.AddScript(script);
+ 
             g_signal_connect_data(WebView.UserContentManager.Handle, "script-message-received::webview",
                 Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
                 IntPtr.Zero,IntPtr.Zero, (global::GLib.ConnectFlags)0);
@@ -82,7 +81,7 @@ public class BlazorWebView : WebView
         }
 
         public WebView WebView { get; init; }
-        readonly void_IntPtr_IntPtr_IntPtr HandleWebMessageDelegate;
+        readonly WebMessageHandler HandleWebMessageDelegate;
         readonly string _relativeHostPath;
         readonly Type _rootComponent;
         readonly ILogger<BlazorWebView>? _logger;
@@ -120,14 +119,15 @@ public class BlazorWebView : WebView
             }
         }
 
-        void HandleWebMessage(IntPtr contentManager, IntPtr jsResult, IntPtr arg)
-        {
-            var jsValue = webkit_javascript_result_get_js_value(jsResult);
-
-            if (jsc_value_is_string(jsValue)) 
+        void HandleWebMessage(IntPtr contentManager, IntPtr jsResultHandle, IntPtr arg) {
+            
+            var jsResult = new JavascriptResult(jsResultHandle);
+        
+            var jsValue = jsResult.JsValue;
+            if (jsValue.IsString) 
             {
-                var p = jsc_value_to_string(jsValue);
-                var s = Marshal.PtrToStringAuto(p);
+                
+                var s = jsValue.ToString();
                 if (s is not null)
                 {
                     _logger?.LogDebug($"Received message `{s}`");
@@ -138,12 +138,10 @@ public class BlazorWebView : WebView
                     }
                     finally
                     {
-                        Marshal.FreeHGlobal(p);
                     }
                 }
             }
 
-            webkit_javascript_result_unref(jsResult);
         }
 
         protected override void NavigateCore(Uri absoluteUri)
