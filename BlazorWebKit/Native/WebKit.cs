@@ -23,11 +23,6 @@ internal static partial class WebKit {
     internal static d_webkit_user_script_unref webkit_user_script_unref = FuncLoader.LoadFunction<d_webkit_user_script_unref>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Webkit), "webkit_user_script_unref"));
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate bool d_webkit_user_content_manager_register_script_message_handler(IntPtr raw, string name);
-
-    internal static d_webkit_user_content_manager_register_script_message_handler webkit_user_content_manager_register_script_message_handler = FuncLoader.LoadFunction<d_webkit_user_content_manager_register_script_message_handler>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Webkit), "webkit_user_content_manager_register_script_message_handler"));
-
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void d_webkit_javascript_result_unref(IntPtr raw);
 
     internal static d_webkit_javascript_result_unref webkit_javascript_result_unref = FuncLoader.LoadFunction<d_webkit_javascript_result_unref>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Webkit), "webkit_javascript_result_unref"));

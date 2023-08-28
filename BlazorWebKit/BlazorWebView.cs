@@ -78,7 +78,6 @@ public class BlazorWebView : WebView
                 IntPtr.Zero,IntPtr.Zero, (global::GLib.ConnectFlags)0);
 
             WebView.UserContentManager.RegisterScriptMessageHandler("webview");
-            // webkit_user_content_manager_register_script_message_handler(WebView.UserContentManager.Handle, "webview");
 
             Navigate("/");
         }
