@@ -5,7 +5,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using System.Web;
-using System.Reflection;
 
 namespace BlazorWebKit;
 
@@ -17,7 +16,7 @@ public class BlazorWebView : WebView
     class WebViewManager : Microsoft.AspNetCore.Components.WebView.WebViewManager
     {
 
-        delegate void void_nint_nint_nint(IntPtr arg0, IntPtr arg1, IntPtr arg2);
+        delegate void void_IntPtr_IntPtr_IntPtr(IntPtr arg0, IntPtr arg1, IntPtr arg2);
 
         const string _scheme = "app";
         readonly static Uri _baseUri = new Uri($"{_scheme}://localhost/");
@@ -83,7 +82,7 @@ public class BlazorWebView : WebView
         }
 
         public WebView WebView { get; init; }
-        readonly void_nint_nint_nint HandleWebMessageDelegate;
+        readonly void_IntPtr_IntPtr_IntPtr HandleWebMessageDelegate;
         readonly string _relativeHostPath;
         readonly Type _rootComponent;
         readonly ILogger<BlazorWebView>? _logger;
