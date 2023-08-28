@@ -1,18 +1,12 @@
 using WebKit;
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using System.Web;
-using GLib;
-using WebKitUpStream;
-using Settings = WebKit.Settings;
+using GtkSharpUpstream;
 
 namespace BlazorWebKit;
-
-using static GLib;
-using static WebKit;
 
 public class BlazorWebView : WebView
 {
@@ -48,7 +42,7 @@ public class BlazorWebView : WebView
                 await AddRootComponentAsync(_rootComponent, "#app", ParameterView.Empty);
             });
 
-            var script = new global::WebKit.UserScript(
+            var script = new UserScript(
                 """
                 window.__receiveMessageCallbacks = [];
 
@@ -71,8 +65,8 @@ public class BlazorWebView : WebView
 
             WebView.UserContentManager.AddScript(script);
  
-            g_signal_connect_data(WebView.UserContentManager.Handle, "script-message-received::webview",
-                Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
+            WebView.UserContentManager.SignalConnectData("script-message-received::webview",
+                HandleWebMessageDelegate, 
                 IntPtr.Zero,IntPtr.Zero, (global::GLib.ConnectFlags)0);
 
             WebView.UserContentManager.RegisterScriptMessageHandler("webview");
@@ -101,18 +95,14 @@ public class BlazorWebView : WebView
 
             _logger?.LogInformation($"Fetching \"{uri}\"");
 
-            if (TryGetResponseContent(uri, false, out int statusCode, out string statusMessage, out Stream content, out IDictionary<string, string> headers))
+            if (TryGetResponseContent(uri, false, out int statusCode, out string statusMessage, out Stream content, out IDictionary<string, string> headers)) 
             {
-                using(var ms = new MemoryStream())
-                {
-                    content.CopyTo(ms);
 
-                    // TODO: use MemoryInputStream after https://github.com/GtkSharp/GtkSharp/pull/412 is merged & published
-                    var streamPtr = g_memory_input_stream_new_from_data(ms.GetBuffer(), (uint)ms.Length, IntPtr.Zero);
-                    var inputStream = new global::GLib.InputStream(streamPtr);
-                    request.Finish(inputStream, ms.Length, headers["Content-Type"]);
-                }
-            }
+                using var inputStream = content.AsInputStream();
+                request.Finish(inputStream, content.Length, headers["Content-Type"]);
+
+
+            } 
             else
             {
                 throw new Exception($"Failed to serve \"{uri}\". {statusCode} - {statusMessage}");
