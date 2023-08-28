@@ -15,8 +15,8 @@ static class UserScript {
         string[]? allow_list, string[]? block_list) {
         // https://webkitgtk.org/reference/webkit2gtk/2.9.4/webkit2gtk-4.0-WebKitUserContent.html#webkit-user-script-new
 
-        IntPtr[] native_allow_list = allow_list == null ? Array.Empty<IntPtr> () : GLib.Marshaller.StringArrayToNullTermPointer (allow_list);
-        IntPtr[] native_block_list = block_list == null ? Array.Empty<IntPtr> () : GLib.Marshaller.StringArrayToNullTermPointer (block_list);
+        IntPtr[] native_allow_list = allow_list == null ? Array.Empty<IntPtr> () : global::GLib.Marshaller.StringArrayToNullTermPointer (allow_list);
+        IntPtr[] native_block_list = block_list == null ? Array.Empty<IntPtr> () : global::GLib.Marshaller.StringArrayToNullTermPointer (block_list);
             
         var raw = WebKit.webkit_user_script_new (source, injected_frames, injection_time, native_allow_list, native_block_list);
             

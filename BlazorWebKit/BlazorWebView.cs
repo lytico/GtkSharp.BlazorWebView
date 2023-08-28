@@ -9,17 +9,13 @@ using System.Reflection;
 
 namespace BlazorWebKit;
 
-using static Gtk;
+using static GLib;
 using static WebKit;
 
 public class BlazorWebView : WebView
 {
     class WebViewManager : Microsoft.AspNetCore.Components.WebView.WebViewManager
     {
-        static WebViewManager()
-        {
-            NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver.Resolve);
-        }
 
         delegate void void_nint_nint_nint(IntPtr arg0, IntPtr arg1, IntPtr arg2);
 
@@ -79,9 +75,10 @@ public class BlazorWebView : WebView
 
             g_signal_connect_data(WebView.UserContentManager.Handle, "script-message-received::webview",
                 Marshal.GetFunctionPointerForDelegate(HandleWebMessageDelegate), 
-                IntPtr.Zero,IntPtr.Zero, (GLib.ConnectFlags)0);
+                IntPtr.Zero,IntPtr.Zero, (global::GLib.ConnectFlags)0);
 
-            webkit_user_content_manager_register_script_message_handler(WebView.UserContentManager.Handle, "webview");
+            WebView.UserContentManager.RegisterScriptMessageHandler("webview");
+            // webkit_user_content_manager_register_script_message_handler(WebView.UserContentManager.Handle, "webview");
 
             Navigate("/");
         }
@@ -115,7 +112,7 @@ public class BlazorWebView : WebView
 
                     // TODO: use MemoryInputStream after https://github.com/GtkSharp/GtkSharp/pull/412 is merged & published
                     var streamPtr = g_memory_input_stream_new_from_data(ms.GetBuffer(), (uint)ms.Length, IntPtr.Zero);
-                    var inputStream = new GLib.InputStream(streamPtr);
+                    var inputStream = new global::GLib.InputStream(streamPtr);
                     request.Finish(inputStream, ms.Length, headers["Content-Type"]);
                 }
             }
