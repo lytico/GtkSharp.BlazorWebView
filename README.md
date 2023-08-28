@@ -6,14 +6,14 @@ Blazor Hybrid apps allow one to create a Blazor desktop application that uses th
 ## Why?
 Microsoft has decided to not support Maui on Linux, so there is currently no way to create Blazor Hybrid apps on Linux using *only* C#.
 
-GtkSharp's WebKit implementation is currently [incomplete](https://github.com/GtkSharp/GtkSharp/pull/274).  I don't understand how GtkSharp's codegen works, and GtkSharp doesn't to seem to get much frequent attention from its developers. It'd probably be best to move [GTKSharp's PR #274](https://github.com/GtkSharp/GtkSharp/pull/274) along, but this project provides a working alternative and a proof of concept until then.
+GtkSharp's WebKit implementation is currently [incomplete](https://github.com/GtkSharp/GtkSharp/pull/274).  It'd be best to move [GTKSharp's PR #274](https://github.com/GtkSharp/GtkSharp/pull/274) along, but this project provides a working alternative and a proof of concept until then.
 
 ## How?
 BlazorWebView uses some of the same code as [Steve Sanderson's WebWindow](https://github.com/SteveSandersonMS/WebWindow) and leverages [Microsoft's WebView infrastructure](https://github.com/dotnet/aspnetcore/tree/main/src/Components/WebView) to get Blazor Hybrid working.  However, it differs from WebWindow in that it doesn't require one to compile a native shared library in C++, instead utilizing P/Invoke to call into the native libraries.   This has the benefit that, as long as the native libraries are installed on the Linux system, one only needs to use the `dotnet` CLI to build and run BlazorWebView.
 
 ## Demonstration
 ```
-git clone https://github.com/JinShil/BlazorWebView.git
+git clone https://github.com/lytico/BlazorWebView.git
 cd BlazorWebView/BlazorWebKit.Test
 dotnet run
 ```
