@@ -113,6 +113,7 @@ public class BlazorWebView : WebView
                 {
                     content.CopyTo(ms);
 
+                    // TODO: use MemoryInputStream after https://github.com/GtkSharp/GtkSharp/pull/412 is merged & published
                     var streamPtr = g_memory_input_stream_new_from_data(ms.GetBuffer(), (uint)ms.Length, IntPtr.Zero);
                     var inputStream = new GLib.InputStream(streamPtr);
                     request.Finish(inputStream, ms.Length, headers["Content-Type"]);
