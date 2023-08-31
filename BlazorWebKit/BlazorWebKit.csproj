@@ -8,9 +8,51 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+
     <ItemGroup>
-        <PackageReference Include="GtkSharp" Version="3.24.24.95"/>
-        <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.21"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="AtkSharp">
+            <HintPath>..\libs\GtkSharp\AtkSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="CairoSharp">
+            <HintPath>..\libs\GtkSharp\CairoSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="GdkSharp">
+            <HintPath>..\libs\GtkSharp\GdkSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="GioSharp">
+            <HintPath>..\libs\GtkSharp\GioSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="GLibSharp">
+            <HintPath>..\libs\GtkSharp\GLibSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="GtkSharp">
+            <HintPath>..\libs\GtkSharp\GtkSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="GtkSourceSharp">
+            <HintPath>..\libs\GtkSharp\GtkSourceSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="PangoSharp">
+            <HintPath>..\libs\GtkSharp\PangoSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="WebkitGtkSharp">
+            <HintPath>..\libs\GtkSharp\WebkitGtkSharp.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="GtkSharp.Upstream\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="GtkSharp.Upstream\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="GtkSharp.Upstream\**" />
+    </ItemGroup>
+ 
 </Project>

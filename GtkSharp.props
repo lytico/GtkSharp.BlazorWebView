@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+        <PackageReference Include="GtkSharp" Version="3.24.24.95"/>
+        <PackageReference Include="WebkitGtkSharp" Version="3.24.24.95"/>
+  </PropertyGroup>
+
+</Project>
